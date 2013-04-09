@@ -1,0 +1,28 @@
+//Paths
+$img: '../img/';
+
+//Fonts
+$arial: Arial, sans-serif;
+$robo: 'Roboto Condensed', Arial, sans-serif;
+$icon: 'FontAwesome';
+
+//Color Definitions
+$charcoal:		#423f37;
+$grey:			#57534a;
+$light-grey:	#a19c91;
+$red:			#b7284e;
+$green:			#42c07b;
+
+//Color Assignments
+
+$header: $charcoal;
+$sub-head: $light-grey;
+$subtle-text: $light-grey;
+$subtle-link: $green;
+$text: $grey;
+$link: $red;
+
+//Media Query Break Points
+
+$mobile: 720px;
+$grandma: 880px;

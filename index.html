@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html id="top">
+	<head>
+    	<title>Intermediate Compass/SASS</title>
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<!-- Bootstrap -->
+    	<link href="css/style.css" rel="stylesheet" media="screen">    	
+    	<link href="css/prism.css" rel="stylesheet">
+    </head>
+    <body> 
+    	<nav class="top-nav">
+    		<a href="#main-nav"><div class="mobile-btn"><i class="icon-reorder"></i></div>Jump to Navigation</a>
+    	</nav>
+	    <article>
+	    	<div class="wrapper">
+		    	<hgroup>
+		    		<div class="grandma">
+		    			<img src="img/grandma.jpg" class="grandma" />
+		    			<blockquote>You got this Billy!</blockquote>
+		    		</div>
+			    	<h1>Intermediate Compass/SASS</h1>
+			    	<h2>It's Fun For the Whole Family! Even Grandma!</h2>
+		    	</hgroup>
+		    	
+		    	<section id="triangles" class="first">
+		    		<h2>CSS Triangles</h2>
+		    		<h3>A mixin that generates a css triangle using borders</h3>
+		    		<pre><code class="language-scss">@mixin triangle($color, $size, $direction){
+    content: '';
+    display: block;
+	height: 0;
+	width: 0;
+	border: $size solid transparent;
+	
+	@if($direction == 'up'){
+		border-top: none;
+		border-bottom-color: $color;
+	}
+	
+	@if($direction == 'down'){
+		border-top-color: $color;
+		border-bottom: none;
+	}
+	
+	@if($direction == 'right'){
+		border-right: none;
+		border-left-color: $color;
+	}
+	
+	@if($direction == 'left'){
+		border-right-color: $color;
+		border-left: none;
+	}
+}</code></pre>
+<br />
+<h3>Here's how you'd write the SCSS</h3>
+<pre><code class="language-scss">.red-triangle{
+	@include triangle(red, 20px, left);    
+}
+.green-triangle{
+	@include triangle(#0f0, 100px, down);    
+}
+.blue-triangle{
+	@include triangle(rgba(0,0,255,.5), 80px, up);    
+}</code></pre>
+				<br />
+				<h3>Here's what you get</h3>
+				<div class="examples">
+					<div class="red-triangle example"></div>
+					<div class="green-triangle example"></div>
+					<div class="blue-triangle example"></div>
+				</div>
+		    	</section>
+		    	
+		    	<section id="flex-grid">
+		    		<h2>Flexible Grid</h2>
+		    		<h3>A simple mixin and placeholder that generates a 12 column flexible grid based on the old 940 pixel grid</h3>
+		    		<pre><code class="language-css">%flex-row{
+	@include clearfix;
+	width: 100%;
+}
+
+$column: percentage(60/940);
+$gutter: percentage(20/940);
+
+@mixin grid-span($span){
+	float:left;
+	margin-left: $gutter;
+	width: ($column * $span) + ($gutter * ($span - 1));
+	
+	&:first-child{
+		margin-left:0;
+	}
+}</code></pre>
+<br/>
+<h3>Here's how you can implement it</h3>
+<pre><code class="language-scss">.myRow{
+    @extend %flex-row;
+}
+
+.small-cell{
+	min-height:40px;
+	background-color: #ccc;
+	@include grid-span(4);
+}
+
+.large-cell{
+	min-height:40px;
+	background-color: #ccc;
+	@include grid-span(8);
+}</code></pre>
+					<br />
+					<h3>Here's what you get</h3>
+					<div class="examples">
+						<div class="myRow">
+							<div class="small-cell"></div>
+							<div class="large-cell"></div>
+						</div>
+					</div>
+					<br/>
+					<h3>We can take it a step further, if we want to we can quickly spit out classes for each column in the grid</h3>
+<pre><code class="language-scss">@for $x from 1 to 12 {
+	.span#{$x} {
+		@include grid-span($x);
+		// Let's add some height and color so you can see it
+		min-height: 40px;
+		background-color: #ccc;
+	}
+}</code></pre>
+					<br/>
+					<h3>Now we have .span1, .span2, ... .span12</h3>
+					<div class="examples">
+						<div class="myRow example">
+							<div class="span1"></div>
+							<div class="span1"></div>
+							<div class="span1"></div>
+							<div class="span1"></div>
+							<div class="span1"></div>
+							<div class="span1"></div>
+							<div class="span1"></div>
+							<div class="span1"></div>
+							<div class="span1"></div>
+							<div class="span1"></div>
+							<div class="span1"></div>
+							<div class="span1"></div>
+						</div>
+						<div class="myRow example">
+							<div class="span4"></div>
+							<div class="span4"></div>
+							<div class="span4"></div>
+						</div>
+						<div class="myRow example">
+							<div class="span6"></div>
+							<div class="span6"></div>
+						</div>
+					</div>
+		    	</section>
+		    	
+		    	<section id="lists">
+		    		<h2>Lists of Lists</h2>
+		    		<h3>A series of mixins and functions that extend a placeholder and create versions based on a list... of lists... you'll get this trust me</h3>
+		    		<pre><code class="language-css">/*Let's start by defining some dudes*/
+$michael: Michael, Designer, #dcd782, michael;
+$nathan: Nathan, Designer, #59c5c7, nathan;
+$zach: Zach, Developer, #e76e7f, zach;
+
+/* Let's throw these guys in a list for safe keeping */
+$myList: $michael, $nathan, $zach;
+
+/*Let's define our proto-dude*/
+%proto-dude{
+	display:block;
+	height: 100px;
+	@include border-radius(100px);
+	background: #ccc;
+	color: white;
+	text-indent: 100px;
+	position: relative;
+	line-height: 100px;
+	&:after{
+		content:'';
+		display: block;
+		height: 80px;
+		width: 80px;
+		@include background-size(contain !important);
+		@include border-radius(80px);
+		position: absolute;
+		top:10px;
+		left: 10px;
+	}
+}
+
+/*Let's create a mixin to parse the information*/
+@mixin define-dude($dude){
+	@extend %proto-dude;
+	background: nth($dude,3);
+	&:before{
+		content: "" + nth($dude,1) + ', ' + nth($dude,2) + "";
+	}
+	&:after{
+		background: url('../img/'+ nth($dude,4) + '.jpg');
+	}
+}
+/*Now all we need to do is run through our list*/
+$counter: 1;
+@each $guy in $myList{
+	.dude-#{$counter}{
+		@include define-dude($guy);
+	}
+	$counter: $counter + 1;
+}</code></pre>
+					<br />
+					<h3>This creates the classes .dude-1, .dude-2, .dude-3</h3>
+		    		<div class="examples">
+			    		<div class="dude-1 example"></div>
+			    		<div class="dude-2 example"></div>
+			    		<div class="dude-3 example"></div>
+		    		</div>
+		    	</section>
+	    	</div>
+	    </article>
+	    
+	    <footer id="main-nav">
+	    	<section class="main-nav">
+	    		<figure>
+	    			<img src="img/gem.png">
+	    		</figure>
+		    	<h2>Check 'em Out</h2>
+		    	<nav class="jump-nav">
+		    		<a href="#triangles">Triangles</a>
+		    		<a href="#flex-grid">Flexible Grid</a>
+		    		<a href="#lists">Lists of Lists</a>
+		    		<a href="#top">Back to Top</a>
+		    		<a href="intermed-scss.zip" class="download"><i class="icon-download-alt"></i>This Project</a>
+		    	</nav>
+		    	<div class="nav-links">
+			    	<p>Michael's <a href="http://tinyurl.com/d3wf9tz" target="_blank">Notes</a></p>
+			    	<p>More <a href="http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html" target="_blank">SASS</a></p>
+			    	<p>More <a href="http://compass-style.org/reference/compass/" target="_blank">Compass</a></p>
+			    	<p>More <a href="http://tinyurl.com/bn8lqwu" target="_blank">Awesome</a></p>
+		    	</div>
+	    	</section>
+	    </footer>
+    	
+	    <script src="http://code.jquery.com/jquery.js"></script>
+	    <script src="js/prism.js"></script> 	
+	    <script>
+	    		    	
+	    	$(function(){
+			    $('.jump-nav a[href*=#]').click(function() { //targets any link of .menu with an #id specified, can be changed
+			    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') 
+			        && location.hostname == this.hostname) {
+			            var $target = $(this.hash);
+			            $target = $target.length && $target || $('[name=' + this.hash.slice(1) +']');
+			            if ($target.length) {
+			                var targetOffset = $target.offset().top;
+			                $('html,body').animate({scrollTop: targetOffset}, 500);
+			                return false;
+			            }
+			        }
+			    });
+			});
+			
+	    </script>
+    </body>
+</html>

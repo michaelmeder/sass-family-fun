@@ -1,0 +1,51 @@
+@import "compass/css3";
+@import "compass/reset";
+
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700);
+@import "../css/font-awesome.css";
+
+@import "mixins";
+@import "variables";
+@import "placeholders";
+@import "site";
+
+//Examples For the Site
+.examples{
+	background: #f5f2f0;
+	padding: 1em;
+}
+
+.example{
+	margin-top: 10px;
+	&:first-child{
+		margin-top:0;
+	}
+}
+
+//Triangles
+.red-triangle{
+	@include triangle(red, 20px, left);    
+}
+.green-triangle{
+	@include triangle(#0f0, 100px, down);    
+}
+.blue-triangle{
+	@include triangle(rgba(0,0,255,.5), 80px, up);    
+}
+
+//Grid
+.myRow{
+    @extend %flex-row;
+}
+
+.small-cell{
+	min-height:40px;
+	background-color: #ccc;
+	@include grid-span(4);
+}
+
+.large-cell{
+	min-height:40px;
+	background-color: #ccc;
+	@include grid-span(8);
+}

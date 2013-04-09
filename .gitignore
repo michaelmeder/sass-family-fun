@@ -1,0 +1,5 @@
+# Ignore ds store
+.DS_Store
+# Ignore sass cache folder
+/.sass_cache
+.sass-cache/*

@@ -1,0 +1,291 @@
+html{
+	height: 100%;
+}
+
+body{
+	background: url(#{$img}cream_dust.png);
+	font-family: $robo;
+	font-size: 20px;
+	font-weight: 300;
+	line-height: 1.4;
+	color: $text;
+	height: 100%;
+}
+
+a{
+	color: $red;
+	&:hover{
+		@include rollover($red);
+	}
+}
+
+h1, h2, h3, h4 {
+	font-weight: 500;
+	color: $header;
+}
+
+h1{
+	font-size: 34px;
+}
+
+h2{
+	font-size: 24px;
+}
+
+h3{
+	font-size: 20px;
+}
+
+.top-nav{
+	position: fixed;
+	top:0;
+	width: 100%;
+	height: 40px;
+	display: none;
+	background-color: rgba(245, 242, 240,.95);
+	z-index: 100;
+	@include box-shadow(
+		0 0 5px 0 rgba(0,0,0,.5)
+	);
+	
+	@media screen and (max-width:$mobile) {
+		display: block;
+	}
+	
+	a{
+		color: $header;
+		text-decoration: none;
+		display: block;
+		padding: 0 20px;
+		line-height: 40px;
+		.mobile-btn{
+			display: inline-block;
+			margin-right: 10px;
+		}
+		
+		&:hover{
+			color: $red;
+		}
+	}
+}
+
+article{
+	width: 70%;
+	
+	@media screen and (max-width:$mobile) {
+    	width: 100%;
+    	margin-top: 40px;
+    }
+	
+	.wrapper{
+		padding: 40px;
+		
+		@media screen and (max-width:$mobile) {
+    		padding: 20px;
+    	}
+	}
+	
+	hgroup{
+		position: relative;
+		
+		@media screen and (max-width:$grandma) {
+    		margin-bottom: -10px;
+    	}
+		
+		h1{
+			margin-bottom: 8px;
+		}
+		h2{
+			color: $sub-head;
+		}
+	}
+	
+	section{
+		padding-top: 50px;
+		
+		&:last-child{
+			margin-bottom: 0;
+		}
+		
+		h2{
+			margin-bottom: 5px;
+		}
+		
+		h3{
+			color: $sub-head;
+			margin-bottom: 15px;
+			font-weight: 300;
+		}
+	}
+	
+	pre{
+		font-size: 14px;
+		-webkit-overflow-scrolling: touch;
+		*{
+			text-shadow: none!important;
+		}
+	}
+}
+
+.grandma{
+	display: block;
+	float: right;
+	width: 200px;
+	height: 200px;
+	position: relative;
+	
+	@media screen and (max-width:$grandma) {
+    	display:none;
+    }
+	
+	img{
+		@extend %portal;
+	}
+	
+	blockquote{
+		margin: 0;
+		background: rgba(255,255,255,.85);
+		position: absolute;
+		padding: 6px 12px;
+		top:130px;
+		right: 40px;
+		font-size: 16px;
+		@include border-radius(6px);
+		
+		&:after{
+			@include triangle(rgba(255,255,255,.85), 10px, up);
+			position: absolute;
+			top:-10px;
+			right: 20px;
+		}
+	}
+} 
+
+
+footer{
+	width: 30%;
+	position: fixed;
+	right:0;
+	top:0;
+	z-index: 1;
+	height: 100%;
+	
+	@media screen and (max-width:$mobile) {
+    	width: auto;
+    	position: relative;
+    	right: auto;
+    	top:auto;
+    	height:auto;
+    }
+	
+	&:after{
+		@include vertical-fade-hr(#ccc, #fbfbfb)
+	}
+	
+	&:before{
+		@include vertical-fade-hr(#fff, #fbfbfb)
+	}
+	
+	.main-nav{
+		position: absolute;
+		width: 100%;
+		top:40px;
+		right: 0; 
+		
+		@media screen and (max-width:$mobile) {
+	    	padding-bottom: 20px;
+	    	position: relative;
+	    	right: auto;
+	    	top:auto;
+	    	height:auto;
+    	}
+	}
+	
+	h2{
+		@extend %sidebar-element;
+		color: $red;
+		font-size: 18px;
+		text-transform: uppercase;
+		text-align: center;
+		margin-bottom: 15px;
+	}
+	nav{
+		@extend %sidebar-element;
+		
+		a{
+			@extend %button;
+			display: block;
+			max-width: 90%;
+			margin: 12px auto 0;
+			padding-left: 0;
+			padding-right: 0;
+			&:first-child{
+				margin-top: 0;
+			}
+			
+			@media screen and (max-width:$mobile) {
+		    	max-width: 100%;
+	    	}
+			
+			&.download{
+				background: #60cbcd;
+				color: white!important;
+				i{
+					font-size: 16px;
+					margin-right: 6px;
+				}
+				&:hover{
+					@include rollover-bg(#60cbcd);
+				}
+			}	
+		}
+	}
+	
+	.nav-links{
+		@extend %sidebar-element;
+		
+		@media screen and (max-width:$mobile) {
+		   	margin-bottom: 40px;
+	    }
+		
+		p{ 
+			color: $subtle-text;
+			max-width: 90%;
+			margin: 0 auto;
+			font-size: 18px;
+			padding-top: 6px;
+			margin-top: 6px;
+			border-top:1px solid #ddd;
+			&:first-child{
+				border-top: none;
+			}
+			@media screen and (max-width:$mobile) {
+		    	max-width: 100%;
+	    	}
+		}
+		a{
+			color: $subtle-link;
+			&:hover{
+				@include rollover($subtle-link);	
+			}
+		}
+	}
+	
+	figure{
+		@extend %sidebar-element;
+		max-width: 120px;
+		margin: 0 auto 10px;
+		
+		img{
+			@extend %portal;
+			max-width: 100%;
+			margin: 0 auto;
+			display: block;
+			border: 4px solid white;
+			@include box-shadow(
+				0 2px 6px rgba(0,0,0,.2)
+			);
+			background: rgba(150,150,150,.2);
+		}
+	}
+}

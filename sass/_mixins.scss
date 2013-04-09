@@ -1,0 +1,136 @@
+@mixin clearfix {
+ // For modern browsers
+  &:before,
+  &:after {
+    content:"";
+    display:table;
+  }  &:after {
+    clear:both;
+  }  // For IE 6/7 (trigger hasLayout)
+  & {
+    zoom:1;
+  }
+}
+
+//Rollover Color Generator
+@mixin rollover($color){
+	color: darken($color, 15%);
+}
+
+@mixin rollover-bg($bg-color){
+	background: darken($bg-color, 15%);
+}
+
+@mixin vertical-fade-hr($middle, $end){
+	content: '';
+	position: absolute;
+	top:0;
+	left: 0;
+	height: 100%;
+	width: 1px;
+	@include background(
+		linear-gradient($end 0%, $middle 50%, $end 100%)
+	);
+}
+
+//Triangles
+@mixin triangle($color, $size, $direction){
+	content: '';
+	display: block;
+	height: 0;
+	width: 0;
+	border: $size solid transparent;
+	
+	@if($direction == 'up'){
+		border-top: none;
+		border-bottom-color: $color;
+	}
+	
+	@if($direction == 'down'){
+		border-top-color: $color;
+		border-bottom: none;
+	}
+	
+	@if($direction == 'right'){
+		border-right: none;
+		border-left-color: $color;
+	}
+	
+	@if($direction == 'left'){
+		border-right-color: $color;
+		border-left: none;
+	}
+}
+
+//Flexible Grid – 12 Column Based on 940 Grid
+
+$column: percentage(60/940);
+$gutter: percentage(20/940);
+
+@mixin grid-span($span){
+	float:left;
+	margin-left: $gutter;
+	width: ($column * $span) + ($gutter * ($span - 1));
+	
+	&:first-child{
+		margin-left:0;
+	}
+}
+
+//Generates Span Classes 1-12; ie span1, span2 ... span12.
+@for $x from 1 to 12 {
+	.span#{$x} { 
+		@include grid-span($x);
+		min-height: 40px;
+		background-color: #ccc;
+	}
+}
+
+//Lists of Lists
+
+$michael: Michael, Designer, #dcd782, michael;
+$nathan: Nathan, Designer, #59c5c7, nathan;
+$zach: Zach, Developer, #e76e7f, zach;
+
+$myList: $michael, $nathan, $zach;
+
+%proto-dude{
+	display:block;
+	height: 100px;
+	@include border-radius(100px);
+	background: #ccc;
+	color: white;
+	text-indent: 100px;
+	position: relative;
+	line-height: 100px;
+	&:after{
+		content:'';
+		display: block;
+		height: 80px;
+		width: 80px;
+		@include background-size(contain !important);
+		@include border-radius(80px);
+		position: absolute;
+		top:10px;
+		left: 10px;
+	}
+}
+
+@mixin define-dude($dude){
+	@extend %proto-dude;
+	background: nth($dude,3);
+	&:before{
+		content: "" + nth($dude,1) + ', ' + nth($dude,2) + "";
+	}
+	&:after{
+		background: url('../img/'+ nth($dude,4) + '.jpg');
+	}
+}
+
+$counter: 1;
+@each $guy in $myList{
+	.dude-#{$counter}{
+		@include define-dude($guy);
+	}
+	$counter: $counter + 1;
+}
